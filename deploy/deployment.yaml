@@ -1,0 +1,35 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: my-app
+spec:
+  selector:
+    matchLabels:
+      app: my-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - name: ignition-server
+          image: registry:5000/ignition-server
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8090
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ignition-server
+  namespace: default
+  labels:
+    app: my-app
+spec:
+  publishNotReadyAddresses: true
+  ports:
+    - port: 8090
+      targetPort: 54876
+  selector:
+    name: my-app

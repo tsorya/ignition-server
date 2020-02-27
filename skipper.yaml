@@ -1,0 +1,10 @@
+registry: quay.io
+build-container-image: ignition-server-build
+# build-container-tag: latest
+container-context: . 
+
+containers:
+    ignition-server-build: Dockerfile.ignition-server-build
+    ignition-server: Dockerfile.ignition-server
+volumes:
+    - $HOME/.cache/go-build:/go/pkg/mod

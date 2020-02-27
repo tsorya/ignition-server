@@ -1,0 +1,59 @@
+swagger: '2.0'
+info:
+  description: 'Ignition Server'
+  version: 1.0.0
+  title: IgnitionServer
+host: api.openshift.com
+basePath: /api/ignition-server/v1
+tags:
+  - name: Ignition Server
+    description: Ignition Server
+
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+
+
+paths:
+  /config/{clusterId}/{role}:
+    get:
+      summary: Get config by cluster id and role
+      operationId: GetConfig
+      parameters:
+        - in: path
+          name: clusterId
+          type: string
+          required: true
+          description: Cluster id
+        - in: path
+          name: role
+          type: string
+          required: true
+          description: Node role
+      tags:
+        - ignition-server
+      responses:
+        200:
+          description: Config file in json format
+          schema:
+            $ref: '#/definitions/config_params'
+
+definitions:
+  config_params:
+    type: object
+    properties:
+      name:
+        type: string
+        example: doggie
+      url:
+        type: string
+        example: https://10.12.1.150
+      clusterId:
+        type: string
+        example: igal-test1
+      role:
+        type: string
+        example: bootstrap
